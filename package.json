@@ -19,25 +19,30 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "playwright test",
+    "test:coverage": "COVERAGE=true playwright test && nyc report --reporter=text --reporter=html",
+    "lint": "prettier --write -c src tests",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": ["react-app", "react-app/jest"]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.22.1",
+    "@types/convert-source-map": "^1.5.2",
+    "@types/glob": "^7.2.0",
+    "@types/istanbul-lib-coverage": "^2.0.4",
+    "glob": "^8.0.3",
+    "nyc": "^15.1.0",
+    "prettier": "^2.6.2",
+    "v8-to-istanbul": "^9.0.0"
   }
 }
