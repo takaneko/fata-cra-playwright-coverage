@@ -7,17 +7,20 @@ import { writeFile } from "fs/promises";
 
 if (process.env.COVERAGE === "true") {
   test.beforeEach(async ({ page }) => {
+    // Coverage collection begins.
     await page.coverage.startJSCoverage();
   });
 
   test.afterEach(async ({ page, request }) => {
+    // Coverage collection ends.
     const coverage = await page.coverage.stopJSCoverage();
 
     for (const entry of coverage) {
-      // get source map file from webpack-dev-server
+      // Get source map file from webpack-dev-server
       const sourceMapResponse = await request.get(`${entry.url}.map`);
-
       const sourcemapConverter = fromJSON(await sourceMapResponse.text());
+
+      // Convert from V8 coverage to istanbul format
       const converter = v8ToIstanbul("", 0, {
         source: entry.source,
         originalSource: "",
@@ -27,6 +30,7 @@ if (process.env.COVERAGE === "true") {
       await converter.load();
       converter.applyCoverage(entry.functions);
 
+      // Save coverage JSON for each test.
       const coveragePath = path.resolve(".coverage");
       await writeFile(
         path.join(coveragePath, `${randomUUID()}.json`),
