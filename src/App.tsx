@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Messages from "./components/Messages";
+import MessageForm from "./components/MessageForm";
 
-function App() {
+const styles: Record<string, React.CSSProperties> = {
+  container: {
+    backgroundColor: "#282c34",
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    fontSize: "20px",
+    color: "white",
+  },
+  messages: {
+    marginTop: "2em",
+  },
+};
+
+const App: React.FC = () => {
+  const [messages, setMessages] = useState<string[]>([]);
+
+  const onSubmit = (message: string) => {
+    setMessages([message, ...messages]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={styles.container}>
+      <MessageForm onSubmit={onSubmit} />
+      <div style={styles.messages}>
+        <Messages messages={messages} />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
