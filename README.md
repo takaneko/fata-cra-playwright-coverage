@@ -1,5 +1,9 @@
 # Create React App + Playwright Coverage Sample
 
+## Blog
+
+https://takaneko.dev/blog/cra-playwright-coverage/
+
 ## Requirements
 
 - node 16.x
